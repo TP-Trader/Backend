@@ -1,4 +1,4 @@
-const { userSchema } = require('../middleware/schema');
+// const { userSchema } = require('../middleware/schema');
 
 const userValidator = (req, res, next) => {
   const { error } = userSchema.validate(req.body);

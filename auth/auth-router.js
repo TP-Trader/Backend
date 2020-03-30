@@ -2,6 +2,8 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { userValidator } = require("../middleware/validators");
+
 const { jwtSecret } = require("./secrets");
 
 //  CRUD endpoints beginning with /api/auth
