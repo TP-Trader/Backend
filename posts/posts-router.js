@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Posts = require("./posts-model");
 const qa = require("../middleware/qa-middleware");
 
+const { postsValidator } = require('../middleware/validators');
+
 //  List All Tasks >>>>>>>>
 router.get("/", (req, res) => {
   Posts.find()
