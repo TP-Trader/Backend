@@ -1,6 +1,6 @@
 const express = require("express");
 const authRouter = require("../auth/auth-router");
-const postsRouter = require('../posts/posts-router');
+const postsRouter = require("../posts/posts-router");
 const cors = require("cors");
 const helmet = require("helmet");
 
@@ -13,8 +13,9 @@ server.use(express());
 server.use(cors());
 server.use(helmet());
 
+//  endpoints beginning with /api/... >>>>>>>>
 server.use("/api/auth", authRouter);
-server.use('/api/posts', restricted, postsRouter);
+server.use("/api/posts", restricted, postsRouter);
 
 //  sanity check  >>>>>>>>
 server.get("/", (req, res) => {

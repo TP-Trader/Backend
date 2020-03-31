@@ -1,4 +1,4 @@
-// const { userSchema } = require('../middleware/schema');
+const { userSchema, postsSchema } = require('../middleware/schema-middleware');
 
 const userValidator = (req, res, next) => {
   const { error } = userSchema.validate(req.body);
@@ -11,7 +11,7 @@ const userValidator = (req, res, next) => {
 };
 
 const postValidator = (req, res, next) => {
-  const { error } = taskSchema.validate(req.body);
+  const { error } = postsSchema.validate(req.body);
 
   if (error) {
     res.status(400).json(postSchema.validate(req.body).error);
