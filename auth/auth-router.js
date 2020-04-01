@@ -31,19 +31,19 @@ router.post("/register", userValidator, (req, res) => {
 
 //  User Login
 router.post("/login", (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  Users.findBy(username)
+  Users.findBy(email)
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json({ message: `Welcome ${user.username}`, token });
+        res.status(200).json({ message: `Welcome ${user.email}`, token });
       } else {
         res.status(400).json({ message: "Invalid Credentials" });
       }
     })
-    .catch(error => {
+    .catch(err => {
       res.status(500).json(err.message);
     });
 });

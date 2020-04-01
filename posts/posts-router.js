@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Posts = require("./posts-model");
 const qa = require("../middleware/qa-middleware");
 
-const { postsValidator } = require('../middleware/validators');
+const { postsValidator } = require("../middleware/validators");
 
 //  List All Tasks >>>>>>>>
 router.get("/", (req, res) => {
@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  Tasks.findById(id)
+  Posts.findById(id)
     .then(posts => {
       res.status(200).json(posts);
     })
@@ -36,7 +36,7 @@ router.get("/:id", (req, res) => {
 router.post("/", async (req, res) => {
   const posts = req.body;
   try {
-    const newPosts = await Posts.insert(posts);
+    const newPosts = await Posts.add(posts);
     res.status(201).json(newPosts);
   } catch (error) {
     res.status(500).json({ error: "error creating new post" });

@@ -8,17 +8,16 @@ module.exports = {
 
 function add(user) {
   console.log(user);
-  return db("users")
-    .insert(user)
-    // .then(ids => {
-    //   const [id] = ids;
-    //   return findById(id);
-    // });
+  return db("users").insert(user);
+  // .then(ids => {
+  //   const [id] = ids;
+  //   return findById(id);
+  // });
 }
-function findBy(username) {
+function findBy(email) {
   return db("users")
     .select("*")
-    .where({ username });
+    .where({ email });
 }
 
 function findById(id) {

@@ -1,24 +1,24 @@
 exports.seed = function(knex) {
   return knex("posts").insert([
     {
-      desiredItem: "mowed lawn",
+      desiredItem: "bread",
       postsCity: "Whoville",
-      type: "yard work",
-      description: "mow my lawn and trim the shrubs",
+      type: "food",
+      description: "any type of bread",
       user_id: 1
     },
     {
-      desiredItem: "loaf of sunbeam",
+      desiredItem: "lawn mowed",
       postsCity: "Devsburg",
-      type: "food",
-      description: "full loaf of bread",
+      type: "labor",
+      description: "I need my grass mowed",
       user_id: 2
     },
     {
-      desiredItem: "frozen pizza",
-      postsCity: "Quarantown",
+      desiredItem: "milk",
+      postsCity: "Tinytown",
       type: "food",
-      description: "Red Baron pepperoni pizza",
+      description: "whole milk",
       user_id: 3
     }
   ]);
