@@ -1,10 +1,10 @@
 exports.seed = function(knex) {
   return knex("posts").insert([
     {
-      desiredItem: "bread",
+      desiredItem: "toilet paper",
       postsCity: "Whoville",
-      type: "Food",
-      description: "any type of bread",
+      type: "Household Item",
+      description: "anything will do, I'm desperate.",
       date: "2020-04-05 16:00:00",
       user_id: 1
     },

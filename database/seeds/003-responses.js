@@ -16,7 +16,7 @@ exports.seed = function(knex) {
     },
     {
       item: "milk",
-      description: "I just finished mine, if you find some let me know",
+      description: "I could use some milk. Wanna trade?",
       date: "2020-04-08 19:00:00",
       accept: false,
       posts_id: 1
