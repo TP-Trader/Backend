@@ -1,11 +1,14 @@
 const router = require("express").Router({ mergeParams: true });
 const Posts = require("./posts-model");
-const qa = require("../middleware/qa-middleware");
+const responseRouter = require("../responses/responses-router");
+// const qa = require("../middleware/qa-middleware");
 const findPostById = require("../middleware/findPostById");
 
-const { postsValidator } = require("../middleware/validators");
+router.use("/:postId/responses", responseRouter);
 
-//  List All Tasks for user >>>>>>>>
+// const { postsValidator } = require("../middleware/validators");
+
+//  List All post for user >>>>>>>>
 router.get("/", async (req, res) => {
   const { userId } = req.params;
   try {
@@ -16,7 +19,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//  List tasks by ID >>>>>>>>
+//  List post by ID >>>>>>>>
 router.get("/:id", findPostById, async (req, res) => {
   const { post } = req;
   res.status(200).json(post);
