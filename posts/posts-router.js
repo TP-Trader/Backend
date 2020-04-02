@@ -1,75 +1,76 @@
-const router = require("express").Router();
+const router = require("express").Router({ mergeParams: true });
 const Posts = require("./posts-model");
 const qa = require("../middleware/qa-middleware");
+const findPostById = require("../middleware/findPostById");
 
 const { postsValidator } = require("../middleware/validators");
 
-//  List All Tasks >>>>>>>>
-router.get("/", (req, res) => {
-  Posts.find()
-    .then(posts => {
-      res.status(200).json(posts);
-    })
-    .catch(error => {
-      console.log(error);
-      res
-        .status(500)
-        .json({ message: "internal server error - listing tasks" });
-    });
+//  List All Tasks for user >>>>>>>>
+router.get("/", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const posts = await Posts.find(userId);
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 //  List tasks by ID >>>>>>>>
-router.get("/:id", (req, res) => {
-  const id = req.params.id;
-
-  Posts.findById(id)
-    .then(posts => {
-      res.status(200).json(posts);
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ message: "internal server error -posts by id" });
-    });
+router.get("/:id", findPostById, async (req, res) => {
+  const { post } = req;
+  res.status(200).json(post);
 });
 
 //  Add New Posts >>>>>>>>
 router.post("/", async (req, res) => {
-  const posts = req.body;
+  const { userId } = req.params;
+  const post = req.body;
+  if (!post) {
+    return res.status(400).json({ error: "Missing post body" });
+  }
   try {
-    const newPosts = await Posts.add(posts);
-    res.status(201).json(newPosts);
-  } catch (error) {
-    res.status(500).json({ error: "error creating new post" });
+    const newPost = await Posts.add(post, userId);
+    res.status(201).json(newPost);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
 //  Delete Posts >>>>>>>>
-router.delete("/:id", (req, res) => {
-  const id = req.params.id;
-
-  Posts.remove(id)
-    .then(id => {
-      res.status(200).json(id);
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ message: "internal server error - Deleting" });
+router.delete("/:id", findPostById, async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Posts.remove(id);
+    res
+      .status(200)
+      .json({
+        message: "Successfully deleted"
+      })
+      .end();
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
     });
+  }
 });
 
 //  Update Posts >>>>>>>
-router.put("/:id", qa, (req, res) => {
-  const id = req.params.id;
+router.put("/:id", findPostById, async (req, res) => {
+  const { id } = req.params;
   const change = req.body;
 
-  Posts.update(id, change)
-    .then(posts => {
-      res.status(200).json(posts);
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ message: "Internal Server Error - Updating" });
+  try {
+    await Posts.update(id, change);
+    res
+      .status(200)
+      .json(change)
+      .end();
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
     });
+  }
 });
 
 module.exports = router;

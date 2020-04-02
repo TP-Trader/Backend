@@ -1,9 +1,10 @@
 const express = require("express");
 const authRouter = require("../auth/auth-router");
+const usersRouter = require("../user/user-router");
 const postsRouter = require("../posts/posts-router");
 const cors = require("cors");
 const helmet = require("helmet");
-const bodyparser = require('body-parser');
+const bodyparser = require("body-parser");
 
 //  middleware  >>>>>>>>
 const restricted = require("../middleware/restricted-middleware");
@@ -17,6 +18,7 @@ server.use(helmet());
 
 //  endpoints beginning with /api/... >>>>>>>>
 server.use("/api/auth", authRouter);
+server.use("/api/users", restricted, usersRouter);
 server.use("/api/posts", restricted, postsRouter);
 
 //  sanity check  >>>>>>>>
