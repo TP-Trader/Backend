@@ -4,7 +4,9 @@ const qa = require("../middleware/qa-middleware");
 
 const { postsValidator } = require("../middleware/validators");
 
-//  List All Tasks >>>>>>>>
+
+
+//  List All posts >>>>>>>>
 router.get("/", (req, res) => {
   Posts.find()
     .then(posts => {

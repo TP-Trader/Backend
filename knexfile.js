@@ -3,12 +3,17 @@ require("dotenv").config();
 
 module.exports = {
   development: {
-    client: "pg",
+    client: "postgresql",
     connection: {
-      connectionString: process.env.DATABASE
+      database:'tptrader',
+      user:'postgres',
+      port:5431,
+      password:'Yamaha62',
+      
     },
     migrations: {
-      directory: "./database/migrations"
+      tableName: 'knex_migrations',
+      directory: './database/migrations'
     },
     seeds: {
       directory: "./database/seeds"
@@ -17,23 +22,28 @@ module.exports = {
   staging: {
     client: "postgresql",
     connection: {
-      database: process.env.DATABASE,
-      user: process.env.DBUSER,
-      password: process.env.DBPASS
+      database:'tptrader',
+      port: 5432,
+      user:'postgres',
+      password:'Yamaha62',
+      
     },
     pool: {
-      min: process.env.DATABASE_POOL_MIN,
-      max: process.env.DATABASE_POOL_MAX
+      min: 2,
+      max: 10
     },
     migrations: {
       tableName: "knex_migrations",
       directory: "./database/migrations"
+    },
+    seeds: {
+      directory: "./database/seeds"
     }
   },
   production: {
     client: "pg",
     connection: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString: 'postgres://postgres:pass@localhost:5432/tptrader',
       ssl: true
     },
     migrations: {
