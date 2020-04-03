@@ -1,6 +1,14 @@
 const router = require("express").Router({ mergeParams: true });
 const Responses = require("./responses-model");
 const findResponseById = require("../middleware/findPostById");
+const Posts = require("../posts/posts-model");
+const sendAcceptance = require("../mailer/tradeAcceptance");
+
+const generateAcceptanceURL = (postId, userId) => {
+  const HOSTNAME =
+    process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+  return `${HOSTNAME}/users/${userId}/posts/${postId}`;
+};
 
 router.get("/", async (req, res) => {
   const { postId } = req.params;
@@ -20,13 +28,16 @@ router.get("/:id", findResponseById, async (req, res) => {
 
 //  Add New response >>>>>>>>
 router.post("/", async (req, res) => {
-  const { userId } = req.params;
+  const { postId } = req.params;
   const response = req.body;
   if (!response) {
     return res.status(400).json({ error: "Missing response body" });
   }
   try {
-    const newResponse = await Responses.add(response, userId);
+    const newResponse = await Responses.add(response, postId);
+    const post = await Posts.findById(postId);
+    const tradeAcceptanceURL = generateAcceptanceURL(postId, newResponse.id);
+    sendAcceptance(newResponse, post, tradeAcceptanceURL);
     res.status(201).json(newResponse);
   } catch (err) {
     res.status(500).json({ message: err.message });
