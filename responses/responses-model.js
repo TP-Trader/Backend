@@ -9,21 +9,21 @@ module.exports = {
   remove
 };
 
-function find(userId) {
-  return db("posts").where({ user_id: userId });
+function find(postId) {
+  return db("responses").where({ posts_id: postId });
 }
 
 function findBy(filter) {
-  return db("posts").where(filter);
+  return db("responses").where(filter);
 }
 
 function findById(id) {
-  return db("posts").where({ id });
+  return db("responses").where({ id });
 }
 
-async function add(post, userId) {
-  const [id] = await db("posts")
-    .insert({ ...post, user_id: userId })
+async function add(response, postId) {
+  const [id] = await db("responses")
+    .insert({ ...response, posts_id: postId })
     .returning("id");
 
   return findById(id);
@@ -34,10 +34,10 @@ async function update(id, updates) {
   delete updates.user_id;
 
   try {
-    const updatePost = await db("posts")
+    const updateResponse = await db("responses")
       .where({ id })
       .update(updates);
-    return updatePost;
+    return updateResponse;
   } catch (err) {
     throw new Error(err);
   }
@@ -45,11 +45,11 @@ async function update(id, updates) {
 
 async function remove(id) {
   try {
-    deletedPost = await findById(id);
-    const getPost = await db("posts")
+    deletedResponse = await findById(id);
+    const getResponse = await db("responses")
       .where({ id })
       .del();
-    return getPost ? getPost : null;
+    return getResponse ? getResponse : null;
   } catch {
     throw new Error(err);
   }
