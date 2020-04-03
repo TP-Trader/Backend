@@ -6,9 +6,6 @@ const findPostById = require("../middleware/findPostById");
 
 router.use("/:postId/responses", responseRouter);
 
-
-
-
 //  List All posts >>>>>>>>
 router.get("/", (req, res) => {
   Posts.find()
@@ -24,7 +21,6 @@ router.get("/", (req, res) => {
 });
 
 // const { postsValidator } = require("../middleware/validators");
-
 
 //  List All post for user >>>>>>>>
 router.get("/", async (req, res) => {
@@ -43,7 +39,7 @@ router.get("/:id", findPostById, async (req, res) => {
   res.status(200).json(post);
 });
 
-//  Add New Posts >>>>>>>>
+//  Add New Post >>>>>>>>
 router.post("/", async (req, res) => {
   const { userId } = req.params;
   const post = req.body;
