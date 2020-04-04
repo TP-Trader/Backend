@@ -12,7 +12,7 @@ router.use("/:postId/responses", responseRouter);
 router.get("/", async (req, res) => {
   const { userId } = req.params;
   try {
-    const posts = await Posts.findById(userId);
+    const posts = await Posts.findByUser(userId);
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });

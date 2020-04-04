@@ -4,6 +4,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByUser,
   add,
   update,
   remove
@@ -11,6 +12,10 @@ module.exports = {
 
 function find() {
   return db("posts").select("*");
+}
+
+function findByUser(userId) {
+  return db("posts").where({ user_id: userId });
 }
 
 function findBy(filter) {
@@ -54,14 +59,3 @@ async function remove(id) {
     throw new Error(err);
   }
 }
-
-// function remove(id) {
-//   return db("posts")
-//     .select("*")
-//     .where({ id })
-//     .del();
-
-//     return getPost ? getPost : null;
-//   } catch {
-//     throw new Error(err);
-//   }
