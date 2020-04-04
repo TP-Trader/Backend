@@ -8,7 +8,7 @@ const { postsValidator } = require("../middleware/validators");
 
 //  List All landing page posts >>>>>>>>
 router.get("/", (req, res) => {
-  Posts.find().limit(10)
+  Posts.find()
     .then(posts => {
       res.status(200).json(posts);
     })
