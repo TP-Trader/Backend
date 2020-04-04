@@ -1,14 +1,5 @@
 const db = require("../database/dbconfig");
 
-module.exports = {
-  find,
-  findBy,
-  findById,
-  add,
-  update,
-  remove
-};
-
 function find(postId) {
   return db("responses").where({ posts_id: postId });
 }
@@ -17,9 +8,13 @@ function findBy(filter) {
   return db("responses").where(filter);
 }
 
-function findById(id) {
-  return db("responses").where({ id });
-}
+const findById = async id => {
+  try {
+    return (await db("responses").where({ id }))[0];
+  } catch (err) {
+    throw err;
+  }
+};
 
 async function add(response, postId) {
   const [id] = await db("responses")
@@ -30,9 +25,6 @@ async function add(response, postId) {
 }
 
 async function update(id, updates) {
-  delete updates.id;
-  delete updates.user_id;
-
   try {
     const updateResponse = await db("responses")
       .where({ id })
@@ -54,3 +46,12 @@ async function remove(id) {
     throw new Error(err);
   }
 }
+
+module.exports = {
+  find,
+  findBy,
+  findById,
+  add,
+  update,
+  remove
+};

@@ -26,9 +26,9 @@ function findById(id) {
   return db("posts").where({ id });
 }
 
-async function add(post, userId) {
+async function add(post) {
   const [id] = await db("posts")
-    .insert({ ...post, user_id: userId })
+    .insert(post)
     .returning("id");
 
   return findById(id);

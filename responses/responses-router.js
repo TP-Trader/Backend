@@ -23,7 +23,11 @@ router.get("/", async (req, res) => {
 //  List response by ID >>>>>>>>
 router.get("/:id", findResponseById, async (req, res) => {
   const { response } = req;
-  res.status(200).json(response);
+  if (response) {
+    res.status(200).json(response);
+  } else {
+    res.status(404).json({ message: "could not find response with given id" });
+  }
 });
 
 //  Add New response >>>>>>>>
@@ -68,11 +72,16 @@ router.put("/:id", findResponseById, async (req, res) => {
   const change = req.body;
 
   try {
-    await Responses.update(id, change);
-    res
-      .status(200)
-      .json(change)
-      .end();
+    const response = await Responses.findById(id);
+
+    if (response) {
+      const updatedResponse = await Responses.update(id, change);
+      res.json(updatedResponse);
+    } else {
+      res
+        .status(404)
+        .json({ message: "could not find response with given id" });
+    }
   } catch (err) {
     res.status(500).json({
       error: err.message

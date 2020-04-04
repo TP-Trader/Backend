@@ -29,12 +29,28 @@ router.get("/:id", findPostById, async (req, res) => {
 router.post("/", async (req, res) => {
   const { userId } = req.params;
   const post = req.body;
-  if (!post) {
-    return res.status(400).json({ error: "Missing post body" });
-  }
+  const today = new Date();
+  const date =
+    today.getFullYear() +
+    "-" +
+    (today.getMonth() + 1) +
+    "-" +
+    today.getDate() +
+    " " +
+    today.getHours() +
+    ":" +
+    today.getMinutes() +
+    ":" +
+    today.getSeconds();
   try {
-    const newPost = await Posts.add(post, userId);
-    res.status(201).json(newPost);
+    if (post) {
+      const newPost = await Posts.add({ user_id: userId, date: date, ...post });
+      if (newPost) {
+        res.status(201).json(newPost);
+      } else {
+        res.status(404).json({ message: "post could not be added" });
+      }
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
