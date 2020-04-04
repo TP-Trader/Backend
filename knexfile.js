@@ -5,15 +5,11 @@ module.exports = {
   development: {
     client: "postgresql",
     connection: {
-      database:'tptrader',
-      user:'postgres',
-      port:5432,
-      password:'Holeinone1',
-      
+      connectionString: process.env.DATABASE
     },
     migrations: {
-      tableName: 'knex_migrations',
-      directory: './database/migrations'
+      tableName: "knex_migrations",
+      directory: "./database/migrations"
     },
     seeds: {
       directory: "./database/seeds"
@@ -22,11 +18,9 @@ module.exports = {
   staging: {
     client: "postgresql",
     connection: {
-      database:'tptrader',
-      port: 5432,
-      user:'postgres',
-      password:'Holeinone1',
-      
+      connection: {
+        connectionString: process.env.DATABASE
+      }
     },
     pool: {
       min: 2,
@@ -43,7 +37,7 @@ module.exports = {
   production: {
     client: "pg",
     connection: {
-      connectionString: 'postgres://postgres:pass@localhost:5432/tptrader',
+      connectionString: "postgres://postgres:pass@localhost:5432/tptrader",
       ssl: true
     },
     migrations: {

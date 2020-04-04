@@ -18,9 +18,7 @@ function findBy(filter) {
 }
 
 function findById(id) {
-  return db("posts")
-    .select("*")
-    .where({ id });
+  return db("posts").where({ id });
 }
 
 async function add(post, userId) {
@@ -67,4 +65,3 @@ async function remove(id) {
 //   } catch {
 //     throw new Error(err);
 //   }
-

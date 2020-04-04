@@ -6,31 +6,13 @@ const findPostById = require("../middleware/findPostById");
 
 router.use("/:postId/responses", responseRouter);
 
-
-
-
-//  List All posts >>>>>>>>
-router.get("/", (req, res) => {
-  Posts.find()
-    .then(posts => {
-      res.status(200).json(posts);
-    })
-    .catch(error => {
-      console.log(error);
-      res
-        .status(500)
-        .json({ message: "internal server error - listing tasks" });
-    });
-});
-
 // const { postsValidator } = require("../middleware/validators");
-
 
 //  List All post for user >>>>>>>>
 router.get("/", async (req, res) => {
   const { userId } = req.params;
   try {
-    const posts = await Posts.find(userId);
+    const posts = await Posts.findById(userId);
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
