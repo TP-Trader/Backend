@@ -28,7 +28,7 @@ server.use("/api/posts", restricted, postsRouter);
 server.use("/api/landing", landingRouter);
 
 server.use("/api/users", restricted, usersRouter);
-// server.use("/api/posts", restricted, postsRouter);
+
 
 
 //  sanity check  >>>>>>>>

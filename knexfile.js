@@ -7,8 +7,8 @@ module.exports = {
     connection: {
       database:'tptrader',
       user:'postgres',
-      port:5431,
-      password:'Yamaha62',
+      port:5432,
+      password:'Holeinone1',
       
     },
     migrations: {
@@ -25,7 +25,7 @@ module.exports = {
       database:'tptrader',
       port: 5432,
       user:'postgres',
-      password:'Yamaha62',
+      password:'Holeinone1',
       
     },
     pool: {

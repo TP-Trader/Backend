@@ -9,8 +9,8 @@ module.exports = {
   remove
 };
 
-function find(userId) {
-  return db("posts").where({ user_id: userId });
+function find() {
+  return db("posts").select("*");
 }
 
 function findBy(filter) {
@@ -18,7 +18,9 @@ function findBy(filter) {
 }
 
 function findById(id) {
-  return db("posts").where({ id });
+  return db("posts")
+    .select("*")
+    .where({ id });
 }
 
 async function add(post, userId) {
@@ -54,3 +56,15 @@ async function remove(id) {
     throw new Error(err);
   }
 }
+
+// function remove(id) {
+//   return db("posts")
+//     .select("*")
+//     .where({ id })
+//     .del();
+
+//     return getPost ? getPost : null;
+//   } catch {
+//     throw new Error(err);
+//   }
+

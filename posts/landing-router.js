@@ -1,14 +1,13 @@
 const router = require("express").Router();
 const Posts = require("./posts-model");
-const qa = require("../middleware/qa-middleware");
 
-const { postsValidator } = require("../middleware/validators");
+// const { postsValidator } = require("../middleware/validators");
 
 
 
 //  List All landing page posts >>>>>>>>
 router.get("/", (req, res) => {
-  Posts.find().limit(10)
+  Posts.find()
     .then(posts => {
       res.status(200).json(posts);
     })
