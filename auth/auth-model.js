@@ -1,10 +1,10 @@
-const db = require("../database/dbConfig");
+const db = require("../database/dbconfig");
 
 module.exports = {
   add,
   findBy,
   findById,
-  getUser
+  getUser,
 };
 
 function add(user) {
@@ -16,17 +16,13 @@ function add(user) {
   // });
 }
 function findBy(email) {
-  return db("users")
-    .select("*")
-    .where({ email });
+  return db("users").select("*").where({ email });
 }
 
 function findById(id) {
-  return db("users")
-    .select("*")
-    .where({ id });
+  return db("users").select("*").where({ id });
 }
 
 function getUser(email) {
-  return db("users").select("id").where({email});
+  return db("users").select("id").where({ email });
 }
