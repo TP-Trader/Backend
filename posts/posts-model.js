@@ -4,13 +4,18 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByUser,
   add,
   update,
-  remove
+  remove,
 };
 
 function find() {
   return db("posts").select("*");
+}
+
+function findByUser(userId) {
+  return db("posts").where({ user_id: userId });
 }
 
 function findBy(filter) {
@@ -21,22 +26,15 @@ function findById(id) {
   return db("posts").where({ id });
 }
 
-async function add(post, userId) {
-  const [id] = await db("posts")
-    .insert({ ...post, user_id: userId })
-    .returning("id");
+async function add(post) {
+  const [id] = await db("posts").insert(post).returning("id");
 
   return findById(id);
 }
 
-async function update(id, updates) {
-  delete updates.id;
-  delete updates.user_id;
-
+async function update(post, id) {
   try {
-    const updatePost = await db("posts")
-      .where({ id })
-      .update(updates);
+    const updatePost = await db("posts").where({ id }).update(post);
     return updatePost;
   } catch (err) {
     throw new Error(err);
@@ -46,22 +44,9 @@ async function update(id, updates) {
 async function remove(id) {
   try {
     deletedPost = await findById(id);
-    const getPost = await db("posts")
-      .where({ id })
-      .del();
+    const getPost = await db("posts").where({ id }).del();
     return getPost ? getPost : null;
-  } catch {
+  } catch (err) {
     throw new Error(err);
   }
 }
-
-// function remove(id) {
-//   return db("posts")
-//     .select("*")
-//     .where({ id })
-//     .del();
-
-//     return getPost ? getPost : null;
-//   } catch {
-//     throw new Error(err);
-//   }
