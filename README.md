@@ -1,5 +1,7 @@
 # Backend
 
+## Backend deployed to: https://tp-trader.herokuapp.com/
+
 ### 2️⃣ Endpoints
 
 #### Auth Routes
