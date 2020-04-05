@@ -57,19 +57,20 @@ router.post("/", async (req, res) => {
 });
 
 //  Delete Posts >>>>>>>>
-router.delete("/:id", findPostById, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await Posts.remove(id);
-    res
-      .status(200)
-      .json({
-        message: "Successfully deleted"
-      })
-      .end();
+    const deleted = await Posts.remove(id);
+    if (deleted) {
+      res.status(200).json({
+        message: "Successfully deleted",
+      });
+    } else {
+      res.status(404).json({ message: "could not find post with given id" });
+    }
   } catch (err) {
     res.status(500).json({
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -80,15 +81,17 @@ router.put("/:id", findPostById, async (req, res) => {
   const change = req.body;
 
   try {
-    await Posts.update(id, change);
-    res
-      .status(200)
-      .json(change)
-      .end();
+    const post = await Posts.findById(id);
+
+    if (post) {
+      await Posts.update(change, id);
+      const updatedPost = await Posts.findById(id);
+      res.json(updatedPost);
+    } else {
+      res.status(404).json({ message: "could not find post with given id" });
+    }
   } catch (err) {
-    res.status(500).json({
-      error: err.message
-    });
+    res.status(500).json({ message: "Failed to update post" });
   }
 });
 

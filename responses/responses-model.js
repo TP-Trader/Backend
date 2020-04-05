@@ -8,13 +8,9 @@ function findBy(filter) {
   return db("responses").where(filter);
 }
 
-const findById = async id => {
-  try {
-    return (await db("responses").where({ id }))[0];
-  } catch (err) {
-    throw err;
-  }
-};
+function findById(id) {
+  return db("responses").where({ id });
+}
 
 async function add(response, postId) {
   const [id] = await db("responses")
@@ -26,26 +22,20 @@ async function add(response, postId) {
 
 async function update(id, updates) {
   try {
-    const updateResponse = await db("responses")
-      .where({ id })
-      .update(updates);
+    const updateResponse = await db("responses").where({ id }).update(updates);
     return updateResponse;
   } catch (err) {
     throw new Error(err);
   }
 }
 
-async function remove(id) {
+const remove = async (id) => {
   try {
-    deletedResponse = await findById(id);
-    const getResponse = await db("responses")
-      .where({ id })
-      .del();
-    return getResponse ? getResponse : null;
-  } catch {
-    throw new Error(err);
+    await db("responses").where({ id }).del();
+  } catch (err) {
+    throw err;
   }
-}
+};
 
 module.exports = {
   find,
@@ -53,5 +43,5 @@ module.exports = {
   findById,
   add,
   update,
-  remove
+  remove,
 };

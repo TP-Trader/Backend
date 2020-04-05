@@ -1,6 +1,6 @@
 const router = require("express").Router({ mergeParams: true });
 const Responses = require("./responses-model");
-const findResponseById = require("../middleware/findPostById");
+const findResponseById = require("../middleware/findResponseById");
 const Posts = require("../posts/posts-model");
 const sendAcceptance = require("../mailer/tradeAcceptance");
 
@@ -21,13 +21,9 @@ router.get("/", async (req, res) => {
 });
 
 //  List response by ID >>>>>>>>
-router.get("/:id", findResponseById, async (req, res) => {
+router.get("/:id", findResponseById, (req, res) => {
   const { response } = req;
-  if (response) {
-    res.status(200).json(response);
-  } else {
-    res.status(404).json({ message: "could not find response with given id" });
-  }
+  res.status(200).json(response);
 });
 
 //  Add New response >>>>>>>>
@@ -54,14 +50,14 @@ router.delete("/:id", findResponseById, async (req, res) => {
   try {
     await Responses.remove(id);
     res
-      .status(200)
+      .status(204)
       .json({
-        message: "Successfully deleted"
+        message: "Successfully deleted",
       })
       .end();
   } catch (err) {
     res.status(500).json({
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -84,7 +80,7 @@ router.put("/:id", findResponseById, async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      error: err.message
+      error: err.message,
     });
   }
 });
