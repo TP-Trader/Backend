@@ -11,7 +11,7 @@ module.exports = {
 };
 
 function find() {
-  return db("posts").select("*");
+  return db("posts").select("*").orderBy('date','desc');
 }
 
 function findByUser(userId) {
