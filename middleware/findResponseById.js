@@ -6,7 +6,7 @@ const findResponseById = async (req, res, next) => {
     const response = await Response.findById(id);
     if (!response) {
       return res.status(404).json({
-        error: `No response exists with id ${id}`
+        error: `No response exists with id ${id}`,
       });
     } else {
       req.response = response;
@@ -14,7 +14,7 @@ const findResponseById = async (req, res, next) => {
     }
   } catch (err) {
     res.status(500).json({
-      error: err.message
+      error: err.message,
     });
     throw err;
   }

@@ -2,8 +2,9 @@ const Joi = require("@hapi/joi");
 
 const userSchema = Joi.object().keys({
   email: Joi.string().required(),
-  password: Joi.string()
-    .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+  password: Joi.string(),
+  city: Joi.string()
+    .pattern(new RegExp("^[a-zA-Z0-9,.!? ]{3,30}$"))
     .required()
 });
 
